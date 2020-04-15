@@ -11,7 +11,7 @@ import (
 type Flopper interface {
 	http.Handler
 	RegisterMetrics()
-	Flops() int
+	RegisterMetricsTo(prometheus.Registerer)
 }
 
 type flopper struct {
@@ -64,6 +64,7 @@ func (f *flopper) RegisterMetrics() {
 	prometheus.Register(f.illegalFlops)
 }
 
-func (f *flopper) Flops() int {
-	return 0 // how do i reach in?
+func (f *flopper) RegisterMetricsTo(reg prometheus.Registerer) {
+	reg.Register(f.flops)
+	reg.Register(f.illegalFlops)
 }

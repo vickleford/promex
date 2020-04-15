@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/vickleford/promex/flipper"
@@ -15,7 +16,7 @@ func main() {
 	flipper := flipper.New()
 
 	flopper := flopper.New()
-	flopper.RegisterMetrics()
+	flopper.RegisterMetricsTo(prometheus.DefaultRegisterer)
 
 	mux := http.NewServeMux()
 	mux.Handle("/flipper", flipper)
